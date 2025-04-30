@@ -2,58 +2,58 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Monitoramento Ambiental - Brasil</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body class="p-4">
+  <body class="p-2 sm:p-4">
     <div class="max-w-7xl mx-auto">
       <!-- Container de Erros -->
-      <div id="errorContainer" class="mb-6"></div>
+      <div id="errorContainer" class="mb-4 sm:mb-6"></div>
 
       <!-- Cabeçalho -->
       <header
-        class="text-center mb-12"
+        class="text-center mb-6 sm:mb-12"
         data-aos="fade-down"
         data-aos-duration="1000"
       >
-        <h1 class="text-5xl font-bold text-white mb-4">
-          <i class="fas fa-paw mr-2"></i> Monitoramento Ambiental do Brasil
+        <h1 class="text-3xl sm:text-5xl font-bold text-white mb-2 sm:mb-4">
+          <i class="fas fa-paw mr-2"></i> Monitoramento Ambiental
         </h1>
-        <p class="text-2xl font-light">
-          Dados atualizados sobre biodiversidade e desmatamento
+        <p class="text-lg sm:text-2xl font-light">
+          Dados sobre biodiversidade e desmatamento
         </p>
       </header>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-4 sm:mb-8">
         <!-- Gráfico de Desmatamento -->
         <div
-          class="bg-cream p-8 rounded-xl shadow-lg"
+          class="bg-cream p-4 sm:p-6 md:p-8 rounded-xl shadow-lg"
           data-aos="fade-right"
           data-aos-delay="200"
         >
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-semibold text-red-700">
-              <i class="fas fa-tree mr-2"></i> Desmatamento por Bioma
+          <div class="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-semibold text-red-700">
+              <i class="fas fa-tree mr-2"></i> Desmatamento
             </h2>
             <button
               id="refreshDesmatamento"
-              class="px-6 py-2 bg-red-100 text-red-600 rounded-lg text-sm hover:bg-red-200 transition-all"
+              class="px-3 py-1 sm:px-4 sm:py-2 bg-red-100 text-red-600 rounded-lg text-xs sm:text-sm hover:bg-red-200 transition-all"
             >
-              <i class="fas fa-sync-alt mr-2"></i> Atualizar
+              <i class="fas fa-sync-alt mr-1 sm:mr-2"></i> Atualizar
             </button>
           </div>
           <div class="chart-container">
@@ -61,30 +61,30 @@
               <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i>
               </div>
-              <p>Carregando desmatamento...</p>
+              <p>Carregando...</p>
             </div>
             <canvas id="desmatamentoChart"></canvas>
           </div>
-          <p class="text-sm text-gray-500 mt-4">
+          <p class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-4">
             Fonte: MapBiomas/INPE (dados consolidados)
           </p>
         </div>
 
         <!-- Gráfico de Espécies Ameaçadas -->
         <div
-          class="bg-cream p-8 rounded-xl shadow-lg"
+          class="bg-cream p-4 sm:p-6 md:p-8 rounded-xl shadow-lg"
           data-aos="fade-left"
           data-aos-delay="400"
         >
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-2xl font-semibold text-green-700">
+          <div class="flex justify-between items-center mb-4 sm:mb-6">
+            <h2 class="text-xl sm:text-2xl font-semibold text-green-700">
               <i class="fas fa-paw mr-2"></i> Espécies Ameaçadas
             </h2>
             <button
               id="refreshEspecies"
-              class="px-6 py-2 bg-green-100 text-green-600 rounded-lg text-sm hover:bg-green-200 transition-all"
+              class="px-3 py-1 sm:px-4 sm:py-2 bg-green-100 text-green-600 rounded-lg text-xs sm:text-sm hover:bg-green-200 transition-all"
             >
-              <i class="fas fa-sync-alt mr-2"></i> Atualizar
+              <i class="fas fa-sync-alt mr-1 sm:mr-2"></i> Atualizar
             </button>
           </div>
           <div class="chart-container">
@@ -92,25 +92,26 @@
               <div class="loading-spinner">
                 <i class="fas fa-spinner fa-spin"></i>
               </div>
-              <p>Carregando espécies...</p>
+              <p>Carregando...</p>
             </div>
             <canvas id="especiesChart"></canvas>
           </div>
-          <p class="text-sm text-gray-500 mt-4">
-            Fonte: SiBBr (Sistema de Informação sobre a Biodiversidade
-            Brasileira)
+          <p class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-4">
+            Fonte: SiBBr
           </p>
         </div>
       </div>
 
       <!-- Tabela de Dados -->
       <div
-        class="bg-cream p-8 rounded-xl shadow-lg mb-8"
+        class="bg-cream p-4 sm:p-6 md:p-8 rounded-xl shadow-lg mb-4 sm:mb-8"
         data-aos="fade-up"
         data-aos-delay="600"
       >
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">
-          <i class="fas fa-table mr-2"></i> Detalhes dos Dados
+        <h2
+          class="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6"
+        >
+          <i class="fas fa-table mr-2"></i> Detalhes
         </h2>
         <div id="dataTable" class="overflow-x-auto">
           <p class="text-gray-500 italic">
@@ -121,7 +122,7 @@
 
       <!-- Rodapé -->
       <footer
-        class="mt-12 text-center text-sm text-white"
+        class="mt-6 sm:mt-12 text-center text-xs sm:text-sm text-white"
         data-aos="fade-up"
         data-aos-delay="800"
       >

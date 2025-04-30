@@ -79,6 +79,7 @@ async function initApp() {
   setupEventListeners();
   await loadAllData();
   updateDateTime();
+  setupResponsiveCharts();
 }
 
 function setupEventListeners() {
@@ -88,6 +89,32 @@ function setupEventListeners() {
   document
     .getElementById("refreshDesmatamento")
     .addEventListener("click", loadDesmatamentoData);
+}
+
+function setupResponsiveCharts() {
+  window.addEventListener("resize", function () {
+    if (especiesChart) {
+      especiesChart.resize();
+    }
+    if (desmatamentoChart) {
+      desmatamentoChart.resize();
+    }
+  });
+
+  // Ajusta configurações baseadas no tamanho da tela
+  const isMobile = window.innerWidth < 768;
+
+  if (especiesChart) {
+    especiesChart.options.plugins.legend.display = !isMobile;
+    especiesChart.update();
+  }
+
+  if (desmatamentoChart) {
+    desmatamentoChart.options.plugins.legend.position = isMobile
+      ? "bottom"
+      : "right";
+    desmatamentoChart.update();
+  }
 }
 
 function updateDateTime() {
@@ -126,13 +153,11 @@ async function loadAllData() {
 async function loadEspeciesData() {
   showLoading(DOM.loadingEspecies);
   try {
-    // Tentativa de carregar dados reais
     const response = await fetch(
       "https://dadosabertos.icmbio.gov.br/public/especies"
     );
     const data = await response.json();
 
-    // Processando os dados
     const especiesData = {
       categorias: CONFIG.especies.categorias.map((cat) => ({
         ...cat,
@@ -159,13 +184,11 @@ async function loadEspeciesData() {
 async function loadDesmatamentoData() {
   showLoading(DOM.loadingDesmatamento);
   try {
-    // Tentativa de carregar dados reais
     const response = await fetch(
       "https://terrabrasilis.dpi.inpe.br/api/deforestation/rates/prodes/amazon/yearly"
     );
     const data = await response.json();
 
-    // Processando os dados mais recentes
     const latestYear = Math.max(...data.map((d) => d.year));
     const desmatamentoData = {
       valores: CONFIG.biomas.reduce((acc, bioma) => {
@@ -194,6 +217,8 @@ function updateEspeciesChart() {
     especiesChart.destroy();
   }
 
+  const isMobile = window.innerWidth < 768;
+
   especiesChart = new Chart(ctx, {
     type: "bar",
     data: {
@@ -213,7 +238,7 @@ function updateEspeciesChart() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          display: false,
+          display: !isMobile,
         },
         tooltip: {
           callbacks: {
@@ -254,6 +279,8 @@ function updateDesmatamentoChart() {
     "#e74c3c", // Vermelho
   ];
 
+  const isMobile = window.innerWidth < 768;
+
   desmatamentoChart = new Chart(ctx, {
     type: "doughnut",
     data: {
@@ -272,9 +299,12 @@ function updateDesmatamentoChart() {
       maintainAspectRatio: false,
       plugins: {
         legend: {
-          position: "right",
+          position: isMobile ? "bottom" : "right",
           labels: {
             color: "#1f2937",
+            font: {
+              size: isMobile ? 10 : 12,
+            },
           },
         },
         tooltip: {
@@ -296,7 +326,7 @@ function updateDataTable() {
   // Tabela de Espécies
   if (APP_STATE.especies) {
     html += `
-    <div class="mb-8">
+    <div class="mb-6">
       <h3 class="text-lg font-bold text-gray-800 mb-2">
         <i class="fas fa-paw mr-2"></i>
         Espécies Ameaçadas
@@ -305,9 +335,9 @@ function updateDataTable() {
         <table class="w-full">
           <thead>
             <tr class="bg-gray-100">
-              <th class="text-left p-3">Categoria</th>
-              <th class="text-left p-3">Quantidade</th>
-              <th class="text-left p-3">Exemplos</th>
+              <th class="text-left p-2 sm:p-3">Categoria</th>
+              <th class="text-left p-2 sm:p-3">Quantidade</th>
+              <th class="text-left p-2 sm:p-3">Exemplos</th>
             </tr>
           </thead>
           <tbody>
@@ -315,11 +345,11 @@ function updateDataTable() {
               .map(
                 (cat) => `
               <tr class="border-b">
-                <td class="p-3 font-medium" style="color: ${cat.cor}">${
+                <td class="p-2 sm:p-3 font-medium" style="color: ${cat.cor}">${
                   cat.nome
                 }</td>
-                <td class="p-3">${cat.count.toLocaleString("pt-BR")}</td>
-                <td class="p-3">${cat.exemplos.join(", ") || "-"}</td>
+                <td class="p-2 sm:p-3">${cat.count.toLocaleString("pt-BR")}</td>
+                <td class="p-2 sm:p-3">${cat.exemplos.join(", ") || "-"}</td>
               </tr>
             `
               )
@@ -345,8 +375,8 @@ function updateDataTable() {
         <table class="w-full">
           <thead>
             <tr class="bg-gray-100">
-              <th class="text-left p-3">Bioma</th>
-              <th class="text-left p-3">Área (km²)</th>
+              <th class="text-left p-2 sm:p-3">Bioma</th>
+              <th class="text-left p-2 sm:p-3">Área (km²)</th>
             </tr>
           </thead>
           <tbody>
@@ -354,8 +384,8 @@ function updateDataTable() {
               .map(
                 (bioma) => `
               <tr class="border-b">
-                <td class="p-3">${bioma}</td>
-                <td class="p-3">${(
+                <td class="p-2 sm:p-3">${bioma}</td>
+                <td class="p-2 sm:p-3">${(
                   APP_STATE.desmatamento.valores[bioma] || 0
                 ).toLocaleString("pt-BR")}</td>
               </tr>

@@ -15,14 +15,14 @@ body {
 }
 
 .bg-cream:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35) !important;
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.3) !important;
 }
 
 .chart-container {
   position: relative;
   width: 100%;
-  height: 400px;
+  height: 280px;
   margin-bottom: 1rem;
 }
 
@@ -43,9 +43,9 @@ body {
 }
 
 .loading-spinner {
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: #3b82f6;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   animation: spin 1s linear infinite;
 }
 
@@ -66,7 +66,7 @@ body {
 
 #dataTable th,
 #dataTable td {
-  padding: 1rem;
+  padding: 0.5rem;
   text-align: left;
   border-bottom: 1px solid rgba(229, 231, 235, 0.5);
 }
@@ -75,7 +75,7 @@ body {
   background-color: rgba(249, 250, 251, 0.8);
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
 }
 
@@ -93,7 +93,6 @@ header p {
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Botões */
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -102,8 +101,7 @@ button {
 
 button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.1),
-    0 2px 6px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.1);
 }
 
 button:active:not(:disabled) {
@@ -139,24 +137,49 @@ button:focus:not(:active)::after {
   }
 }
 
-@media (max-width: 768px) {
+/* Mobile First Adjustments */
+@media (min-width: 640px) {
   .chart-container {
-    height: 300px;
+    height: 350px;
   }
 
-  #dataTable {
-    font-size: 0.875rem;
+  #dataTable th,
+  #dataTable td {
+    padding: 0.75rem;
   }
 
-  body {
-    background-attachment: scroll;
+  #dataTable th {
+    font-size: 0.75rem;
   }
 
-  header h1 {
-    font-size: 2rem;
+  .bg-cream:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35) !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    height: 400px;
   }
 
-  header p {
-    font-size: 1.25rem;
+  #dataTable th,
+  #dataTable td {
+    padding: 1rem;
+  }
+
+  #dataTable th {
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    height: 450px;
+  }
+
+  .bg-cream:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
   }
 }
