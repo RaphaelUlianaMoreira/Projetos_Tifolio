@@ -1,3 +1,4 @@
+/* Estilos base */
 body {
   font-family: "Palatino", "Palatino Linotype", "Book Antiqua", serif;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
@@ -5,27 +6,34 @@ body {
       center/cover fixed;
   color: #fff;
   min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
 }
 
+/* Cards flutuantes */
 .bg-cream {
   background: rgba(253, 248, 242, 0.95) !important;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bg-cream:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.3) !important;
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35) !important;
 }
 
+/* Containers de gráficos */
 .chart-container {
   position: relative;
   width: 100%;
-  height: 280px;
+  height: 400px;
   margin-bottom: 1rem;
+  touch-action: pan-y pinch-zoom;
 }
 
+/* Overlay de loading */
 .loading-overlay {
   position: absolute;
   top: 0;
@@ -40,12 +48,13 @@ body {
   z-index: 10;
   border-radius: 0.75rem;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .loading-spinner {
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: #3b82f6;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
   animation: spin 1s linear infinite;
 }
 
@@ -58,6 +67,11 @@ body {
   }
 }
 
+/* Tabela responsiva */
+#dataTable {
+  -webkit-overflow-scrolling: touch;
+}
+
 #dataTable table {
   width: 100%;
   border-collapse: collapse;
@@ -66,7 +80,7 @@ body {
 
 #dataTable th,
 #dataTable td {
-  padding: 0.5rem;
+  padding: 1rem;
   text-align: left;
   border-bottom: 1px solid rgba(229, 231, 235, 0.5);
 }
@@ -75,7 +89,7 @@ body {
   background-color: rgba(249, 250, 251, 0.8);
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.05em;
 }
 
@@ -84,6 +98,7 @@ body {
   transition: all 0.2s ease;
 }
 
+/* Header e texto */
 header h1 {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
@@ -93,15 +108,22 @@ header p {
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* Botões */
 button {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
 }
 
 button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.1),
+    0 2px 6px -1px rgba(0, 0, 0, 0.06);
 }
 
 button:active:not(:disabled) {
@@ -137,10 +159,34 @@ button:focus:not(:active)::after {
   }
 }
 
-/* Mobile First Adjustments */
-@media (min-width: 640px) {
+/* Responsividade */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+    background-attachment: scroll;
+  }
+
   .chart-container {
-    height: 350px;
+    height: 300px;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    padding: 0 1rem;
+  }
+
+  header p {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+
+  .bg-cream {
+    padding: 1rem !important;
+  }
+
+  #dataTable {
+    font-size: 0.875rem;
   }
 
   #dataTable th,
@@ -148,38 +194,38 @@ button:focus:not(:active)::after {
     padding: 0.75rem;
   }
 
-  #dataTable th {
-    font-size: 0.75rem;
+  button {
+    padding: 0.5rem 1rem !important;
+    font-size: 0.875rem !important;
   }
 
-  .bg-cream:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.35) !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .chart-container {
-    height: 400px;
-  }
-
-  #dataTable th,
-  #dataTable td {
-    padding: 1rem;
-  }
-
-  #dataTable th {
-    font-size: 0.8rem;
+  .grid {
+    gap: 1rem !important;
   }
 }
 
-@media (min-width: 1024px) {
-  .chart-container {
-    height: 450px;
+/* Ajustes específicos para iOS */
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
   }
 
-  .bg-cream:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4) !important;
+  .bg-cream {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 360px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  .chart-container {
+    height: 250px;
   }
 }
